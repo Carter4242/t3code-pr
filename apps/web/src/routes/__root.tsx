@@ -157,7 +157,7 @@ function RootRouteView() {
     };
   }, [pathname]);
 
-  if (pathname === "/pair" || pathname === "/connect") {
+  if (pathname === "/pair" || pathname === "/connect" || pathname === "/connect-agent") {
     return (
       <>
         <DocumentTitleSync />
