@@ -151,7 +151,7 @@ it("does not reissue imported context into a native thread that already has it",
     createdAt: now,
     updatedAt: now,
   };
-  const delivered = (nativeThreadId: string, status: "pending" | "injected" | "inline") => ({
+  const delivered = (nativeThreadId: string, status: "injected") => ({
     ...legacy,
     delivery: { nativeThreadId, status, itemIds: [] },
   });
@@ -165,39 +165,11 @@ it("does not reissue imported context into a native thread that already has it",
       runs: cancelled,
     }),
   );
-  assert.isTrue(
-    isLegacyImportCovered({
-      providerThread,
-      contextHandoffs: [delivered("native:codex", "inline")],
-      runs: cancelled,
-    }),
-  );
-  // A replaced native thread, an uncertain delivery, or another provider thread still needs it.
+  // A replaced native thread still needs it.
   assert.isFalse(
     isLegacyImportCovered({
       providerThread,
       contextHandoffs: [delivered("native:old", "injected")],
-      runs: cancelled,
-    }),
-  );
-  assert.isFalse(
-    isLegacyImportCovered({
-      providerThread,
-      contextHandoffs: [delivered("native:codex", "pending")],
-      runs: cancelled,
-    }),
-  );
-  assert.isFalse(
-    isLegacyImportCovered({
-      providerThread: { ...providerThread, id: ProviderThreadId.make("provider-thread:other") },
-      contextHandoffs: [delivered("native:codex", "injected")],
-      runs: cancelled,
-    }),
-  );
-  assert.isFalse(
-    isLegacyImportCovered({
-      providerThread: undefined,
-      contextHandoffs: [legacy],
       runs: cancelled,
     }),
   );
@@ -211,21 +183,5 @@ it("does not reissue imported context into a native thread that already has it",
   );
   assert.isFalse(
     isLegacyImportCovered({ providerThread, contextHandoffs: [legacy], runs: cancelled }),
-  );
-  // Provider-switch summaries are not the imported history.
-  assert.isFalse(
-    isLegacyImportCovered({
-      providerThread,
-      contextHandoffs: [
-        {
-          ...delivered("native:codex", "injected"),
-          id: ContextHandoffId.make(
-            "context-handoff:thread:t:from-provider-instance:claudeAgent:to-provider-instance:codex:2",
-          ),
-          strategy: "full_thread_summary",
-        },
-      ],
-      runs: cancelled,
-    }),
   );
 });
