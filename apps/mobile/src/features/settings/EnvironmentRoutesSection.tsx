@@ -4,6 +4,7 @@ import {
   connectionRouteId,
   connectionRouteLabel,
   connectionRoutes,
+  isLearned,
 } from "@t3tools/client-runtime/connection";
 import type { EnvironmentId } from "@t3tools/contracts";
 import * as Option from "effect/Option";
@@ -100,7 +101,7 @@ export function EnvironmentRoutesSection({
               <Text className="text-base text-foreground">{connectionRouteLabel(route)}</Text>
               {address !== null ? (
                 <Text numberOfLines={1} className="text-sm text-foreground-muted">
-                  {address}
+                  {isLearned(route) ? `${address} · found automatically` : address}
                 </Text>
               ) : null}
             </View>
@@ -109,8 +110,8 @@ export function EnvironmentRoutesSection({
         );
       })}
       <Text className="px-4 pb-4 text-sm text-foreground-muted">
-        The first route that answers is used. Pair this machine again over another address, or add
-        it from T3 Connect, to add a route.
+        The first route that answers is used. Addresses the machine reports while connected are
+        added automatically and kept up to date.
       </Text>
     </SettingsSection>
   );

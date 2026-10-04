@@ -69,6 +69,12 @@ Pair it again over another address, or choose **Add route** next to it in the
 T3 Connect list, and the new route joins the existing one instead of adding a
 second machine. Faster routes go first: LAN, then Tailscale, then T3 Connect.
 
+While connected, T3 Code also learns the machine's current LAN and Tailscale
+addresses and adds them as routes, so pairing once through T3 Connect is enough
+to use the LAN at home. When the machine's LAN address changes, for example
+after it joins another Wi-Fi network, the learned route follows it. The machine
+must allow network access for its LAN address to be learned.
+
 T3 Code connects over the first route that answers. Away from home, a LAN
 address that does not answer is checked briefly and skipped. It is only tried
 again, after the other routes, if none of them connect. While connected over a later route, T3 Code checks the earlier ones when

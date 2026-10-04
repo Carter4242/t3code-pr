@@ -3,6 +3,7 @@ import {
   connectionRouteId,
   connectionRouteLabel,
   connectionRoutes,
+  isLearned,
 } from "@t3tools/client-runtime/connection";
 import { ArrowDownIcon, ArrowUpIcon, CheckIcon, RouteIcon, XIcon } from "lucide-react";
 
@@ -73,7 +74,7 @@ export function EnvironmentRoutesMenu({
                     <span className="block truncate">{connectionRouteLabel(route)}</span>
                     {address !== null ? (
                       <span className="block truncate text-xs text-muted-foreground">
-                        {address}
+                        {isLearned(route) ? `${address} · found automatically` : address}
                       </span>
                     ) : null}
                   </span>
